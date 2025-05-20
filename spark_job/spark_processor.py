@@ -5,8 +5,8 @@ spark = (SparkSession.builder
     .appName("Data Processing") 
     .getOrCreate() ) 
 
-data_path = 'data/data.csv'
-# data_path = "s3://emr-project-raw/serverless_example/data/data.csv"
+# data_path = 'data/data.csv'
+data_path = "s3://emr-project-raw/serverless_example/data/data.csv"
 
 df = spark.read.options(header = True).csv(data_path)
 df = (
