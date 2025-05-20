@@ -1,0 +1,5 @@
+aws emr-serverless start-job-run ^
+  --application-id 00fsl7brt1mts70h ^
+  --execution-role-arn arn:aws:iam::676206924820:role/emrserverlessRole ^
+  --job-driver "{ \"sparkSubmit\": { \"entryPoint\": \"s3://emr-project-raw/serverless_example/spark_processor.py\", \"entryPointArguments\": [], \"sparkSubmitParameters\": \"--py-files s3://emr-project-raw/serverless_example/spark_job.zip --conf spark.sql.catalog.my_catalog=org.apache.iceberg.spark.SparkCatalog --conf spark.sql.catalog.my_catalog.type=hadoop --conf spark.sql.catalog.my_catalog.warehouse=s3://my-bucket/iceberg/\" } }" ^
+  --configuration-overrides "{ \"monitoringConfiguration\": { \"s3MonitoringConfiguration\": { \"logUri\": \"s3://emr-project-raw/serverless_example/logs/\" } } }"

@@ -41,3 +41,11 @@ jobs:
       - name: upload spark job to s3
         run: |
           aws s3 cp spark_job.zip s3://emr-project-raw/serverless_example/
+
+      - name: upload spark job file to s3
+        run: |
+          aws s3 cp spark_job/spark_processor.py s3://emr-project-raw/serverless_example/
+          
+      # - name: upload dags  to s3
+      #   run: |
+      #     aws s3 cp dags/ s3://emr-project-raw/serverless_example/dags/ --recursive
