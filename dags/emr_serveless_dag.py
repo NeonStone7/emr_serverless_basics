@@ -13,7 +13,8 @@ LOG_S3_LOCATION = 's3://emr-project-raw/serverless_example/logs/'
 
 default_args = {
     'owner':'oamen',
-    'start_date': datetime(2025, 5, 20)
+    'start_date': datetime(2025, 5, 20),
+    'retry_delay': 5,
 }
 
 @dag(
@@ -36,6 +37,7 @@ def emr_serverless_dag():
                 task_id = f'processor_{i}',
                 application_id=APPLICATION_ID,
                 execution_role_arn=EXECUTION_ROLE_ARN,
+                name = f'processor_{i}',
                 do_xcom_push=True,
                 job_driver = {
                     "sparkSubmit": {
@@ -67,7 +69,7 @@ def emr_serverless_dag():
     def wait_for_job(preprocessor_tasks):
 
         for index, jobrun in enumerate(preprocessor_tasks):
-            EmrServerlessJobFailureSensor(
+            EmrServerlessJobSensor(
                     task_id = f'wait_for_job_{index}',
                     application_id=APPLICATION_ID,
                     job_run_id = jobrun
